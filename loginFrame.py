@@ -1,15 +1,21 @@
 import sys
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setupUi()
 
-        # Create the central widget and set the layout
-        central_widget = QtWidgets.QWidget(self)
+    def setupUi(self):
+        self.setObjectName("MainWindow")
+        self.resize(451, 810)
+        self.centralwidget = QtWidgets.QWidget(self)
+        self.centralwidget.setObjectName("centralwidget")
+
+        # Layout for centralwidget
         central_layout = QtWidgets.QVBoxLayout()
-        central_widget.setLayout(central_layout)
-        self.setCentralWidget(central_widget)
+        self.centralwidget.setLayout(central_layout)
+        self.setCentralWidget(self.centralwidget)
 
         # Create the frames
         self.frame_a = QtWidgets.QFrame()
@@ -36,6 +42,10 @@ class MainWindow(QtWidgets.QMainWindow):
         central_layout.addWidget(self.checkbox)
         central_layout.addWidget(self.frame_a)
         central_layout.addWidget(self.frame_b)
+
+        # Initially, show only frame_a
+        self.frame_a.show()
+        self.frame_b.hide()
 
         # Set the window title
         self.setWindowTitle("Two Frames")
