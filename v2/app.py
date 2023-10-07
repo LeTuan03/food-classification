@@ -54,8 +54,8 @@ def get_db_connection():
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Letuan191003+",
-            database="loginapp"
+            password="password",
+            database="database"
         )
         return connection
     except mysql.connector.Error as err:
