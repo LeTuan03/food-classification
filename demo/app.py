@@ -69,7 +69,7 @@ def is_not_nan(value):
         return not np.isnan(value)
     return True  
 
-class Ui_MainWindow(object):
+class Ui_MainWindow_App(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(451, 810)
@@ -167,11 +167,12 @@ class Ui_MainWindow(object):
             cv2.destroyAllWindows()
         else:
             print("No image selected")
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+            
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = Ui_MainWindow_App()
+#     ui.setupUi(MainWindow)
+#     MainWindow.show()
+#     sys.exit(app.exec_())

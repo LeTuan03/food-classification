@@ -3,10 +3,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal
-import subprocess
-import MySQLdb as mdb
 import hashlib
-from sucd import Ui_MainWindow
+# from sucd import Ui_MainWindow
+from app import Ui_MainWindow_App
 
 
 
@@ -68,14 +67,26 @@ class ClickableLabel(QLabel):
         super().mousePressEvent(event)
         self.clicked.emit()
 
-class Main_w(QMainWindow, Ui_MainWindow):
+class Main_w(QMainWindow, Ui_MainWindow_App):
     def __init__(self):
         super(Main_w, self).__init__()
         self.setupUi(self)
-        self.pushButton_4 = ClickableLabel(self)
-        self.pushButton_4.clicked.connect(self.logout)
+        self.main_window = QtWidgets.QApplication([])
+        # self.pushButton_5.clicked.connect(self.logout)
+        # self.pushButton.clicked.connect(self.show_first_window)
+
     def logout(self):
         widget.setCurrentIndex(0)
+    
+    # def show_first_window(self):
+    #     self.Ui_MainWindow.setupUi(self.main_window)
+    #     self.Ui_MainWindow.set_button_action(self.show_second_window)
+    #     self.main_window.show()
+
+    def show_second_window(self):
+        self.Ui_MainWindow_App.setupUi(self.main_window)
+        self.main_window.show()
+    
 
 
 if __name__ == "__main__":
