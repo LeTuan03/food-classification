@@ -48,8 +48,8 @@ def get_db_connection():
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="your password",  # Consider using environment variables or external configurations
-            database="database name"
+            password="Letuan191003+",
+            database="list_user"
         )
         return connection
     except mysql.connector.Error as err:
