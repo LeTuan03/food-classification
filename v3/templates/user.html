@@ -168,6 +168,9 @@
                     </div>
                 </form>
                 </div>
+
+                <!-- hiển thị thông tin ảnh sau khi đã xử lí -->
+                
                 <div style="min-height: 1000px" class="row">
                     <div class="d-flex justify-content-center">
                         {% if uploaded_image %}
@@ -496,6 +499,9 @@
     </body>
 </html>
 <script>
+    
+    // lấy selecter thẻ 
+
     let video = document.getElementById('camera');
     let canvas = document.getElementById('canvas');
     let context = canvas.getContext('2d');
@@ -504,6 +510,7 @@
     let stopButton = document.getElementById('stop');
     let currentStream;
 
+    // nút dừng camera chụp ảnh
     stopButton.addEventListener('click', function(e) {
         e.preventDefault();
 
@@ -520,6 +527,8 @@
             stopButton.style.display = 'none';
         }
     });
+
+    // nút mở camera chụp ảnh
     openButton.addEventListener('click', function(e) {
         e.preventDefault()
         navigator.mediaDevices.getUserMedia({ video: true })
@@ -538,10 +547,13 @@
         
     });
     
+    // nút chụp ảnh
     snapButton.addEventListener('click', function(e) {
         e.preventDefault()
         context.drawImage(video, 0, 0, 640, 480);
         let imgData = canvas.toDataURL('image/png');
+
+        //gửi ảnh lên server để xử lý nhận biết
         fetch('/process_image', {
         method: 'POST',
         headers: {

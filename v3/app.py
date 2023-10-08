@@ -1,3 +1,6 @@
+# Nhập các thư viện và module cần thiết nếu chưa có thì coppy tên thư viện lên 
+#google gõ tên thư viện + pip
+# để biết cần cài thư viện gì
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import mysql.connector
 
@@ -11,28 +14,39 @@ import base64
 from io import BytesIO
 from PIL import Image
 
-
+# Khởi tạo ứng dụng Flask
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Đặt secret key cho ứng dụng Flask
 
+# Cấu hình cho việc tải ảnh lên
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# model có sẵn cho việc nhận biết tên món ăn
 TF_MODEL_URL = "https://tfhub.dev/google/aiy/vision/classifier/food_V1/1"
+# file csv thông tin
 LABEL_MAP_URL = "aiy_food_V1_labelmap.csv"
+
+# định nghĩa shape của ảnh phù hợp mới có thể nhận biết được món ăn 
+# food_v1 là 192 192
 IMAGE_SHAPE = (192, 192)
 
+# Tạo thư mục uploads nếu nó không tồn tại để lưu ảnh đã up lên
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
+# Tải mô hình được đào tạo trước từ TensorFlow
 model = tf.keras.Sequential([
     hub.KerasLayer(TF_MODEL_URL, trainable=False)
 ])
 
+# Đọc bản đồ nhãn và chuẩn bị từ điển cho việc ánh xạ nhãn và công thức
 label_map = pd.read_csv(LABEL_MAP_URL)
 labels = dict(zip(label_map['id'], zip(
     label_map['name'], label_map['recipe'])))
 
 
+# Hàm để tiền xử lý và chuẩn bị hình ảnh cho việc dự đoán
 def preprocess_image(image_path, img_size=(192, 192)):
     img = tf.keras.preprocessing.image.load_img(
         image_path, target_size=img_size)
@@ -41,14 +55,14 @@ def preprocess_image(image_path, img_size=(192, 192)):
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
-
+# Hàm dự đoán nhãn và công thức của một hình ảnh
 def predict_image(image_path):
     img_array = preprocess_image(image_path)
     predictions = model.predict(img_array)
     predicted_label, predicted_recipe = labels[np.argmax(predictions)]
     return [predicted_label, predicted_recipe]
 
-
+# Hàm kết nối với cơ sở dữ liệu MySQL
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
@@ -62,23 +76,24 @@ def get_db_connection():
         print(f"Err: {err}")
         return None
 
-
+# Hàm kiểm tra giá trị không phải NaN
 def is_not_nan(value):
     if isinstance(value, (int, float, np.number)):
         return np.isnan(value)
     return True
 
 
+# Đường dẫn Flask cho trang chủ
 @app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template('index.html')
 
-
+# Đường dẫn Flask cho trang chủ
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
-
+# Đường dẫn Flask cho trang người dùng và xử lý dự đoán hình ảnh
 @app.route('/user.html', methods=['GET', 'POST'])
 def user():
     if 'logged_in' not in session or not session['logged_in']:
@@ -107,7 +122,7 @@ def user():
                            recipe=None,
                            uploaded_image=uploaded_image_path)
 
-
+# Đường dẫn Flask cho đăng ký người dùng
 @app.route('/register.html', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -131,7 +146,7 @@ def register():
 
     return render_template('register.html')
 
-
+# Đường dẫn Flask cho đăng nhập người dùng
 @app.route('/login.html', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -160,7 +175,7 @@ def login():
     username = session.get('username', None)
     return render_template('login.html')
 
-
+# Đường dẫn Flask để xử lý hình ảnh được gửi qua yêu cầu POST
 @app.route('/process_image', methods=['POST'])
 def process_image():
     data = request.json
@@ -180,17 +195,19 @@ def process_image():
             'recipe': 'no recipe',
             'image_path': uploaded_image_path
         })
+
+    # trả về thông tin đã dự đoán
     return jsonify({
         'label': predicted_label,
         'recipe': predicted_recipe,
         'image_path': uploaded_image_path
     })
 
-
+# Xử lý lỗi 404
 @app.errorhandler(404)
 def error(e):
     return render_template('404.html'), 404
 
-
+# Khởi chạy ứng dụng
 if __name__ == '__main__':
     app.run(debug=True)
