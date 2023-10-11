@@ -10,6 +10,7 @@ import hashlib
 import base64
 from io import BytesIO
 from PIL import Image
+from urllib.parse import quote
 
 
 app = Flask(__name__)
@@ -78,8 +79,7 @@ def is_not_nan(value):
 
 
 def handleGetDetailByName(name, uploaded_image_path):
-    print(name)
-    api_url = 'https://api.api-ninjas.com/v2/recipe?query={}'.format(
+    api_url = 'https://api.api-ninjas.com/v1/recipe?query={}'.format(
         name)
     response = requests.get(
         api_url, headers={'X-Api-Key': 'hr1Ux+K7r3l8/MBYaBVtyw==z3MjelZ4KdzV9eDI'})
@@ -174,7 +174,6 @@ def logout():
 @app.route('/process_image', methods=['POST'])
 def process_image():
     if 'photo' in request.files:
-        print(request.files)
         file = request.files['photo']
         filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filename)
@@ -206,6 +205,21 @@ def process_base64():
     uploaded_image_path = url_for(
         'static', filename='uploads/' + os.path.basename(filename))
     return handleGetDetailByName(predicted_label, uploaded_image_path)
+
+
+@app.route('/process_text', methods=['POST'])
+def process_text():
+    data = request.get_json()
+    searchName = data.get("searchName", "")
+    encoded_text = quote(searchName)
+    url = "https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9&q=" + encoded_text
+    response = requests.get(url)
+    if response.status_code == requests.codes.ok:
+        return response.json()
+    else:
+        return jsonify({
+            "message": "No information"
+        })
 
 
 @app.errorhandler(404)

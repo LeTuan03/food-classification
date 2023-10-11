@@ -18,6 +18,7 @@
         window.addEventListener("load", function () {
             html.classList.remove("ss-preload");
             html.classList.add("ss-loaded");
+            window.scrollTo(0, 0);
 
             preloader.addEventListener(
                 "transitionend",
