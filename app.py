@@ -79,11 +79,11 @@ def is_not_nan(value):
 
 def handleGetDetailByName(name, uploaded_image_path):
     print(name)
-    api_url = 'https://api.api-ninjas.com/v1/recipe?query={}'.format(
+    api_url = 'https://api.api-ninjas.com/v2/recipe?query={}'.format(
         name)
     response = requests.get(
         api_url, headers={'X-Api-Key': 'hr1Ux+K7r3l8/MBYaBVtyw==z3MjelZ4KdzV9eDI'})
-
+    print(response.json())
     return jsonify({
         'label': name,
         'image_path': uploaded_image_path,

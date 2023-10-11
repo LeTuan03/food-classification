@@ -239,6 +239,7 @@
                                             name="photo"
                                             class="d-block form-control font-size-2rem"
                                             accept="image/png, image/gif, image/jpeg"
+                                            onchange="displayImage(this)"
                                         />
                                     </div>
                                     <div class="column xl-3 tab-12">
@@ -349,14 +350,6 @@
                 <!-- Tabs content -->
 
                 <div class="row" id="takePicture" style="display: none">
-                    <div class="d-flex justify-content-center">
-                        <img
-                            src=""
-                            id="takePictureId"
-                            class="img-thumbnail"
-                            style="max-width: 80%; max-height: fit-content"
-                        />
-                    </div>
                     <div>
                         <h3 class="text-center mt-0">Search Results</h3>
 
@@ -366,7 +359,11 @@
                                 src=""
                                 class="img-thumbnail"
                                 id="imageResult"
-                                style="max-width: 50%; max-height: fit-content"
+                                style="
+                                    max-width: 50%;
+                                    height: 400px;
+                                    object-fit: cover;
+                                "
                             />
                         </div>
 
@@ -797,7 +794,7 @@
 
     function uploadImage() {
         let formData = new FormData(document.getElementById("imageForm"));
-
+        console.log(formData);
         fetch("/process_image", {
             method: "POST",
             body: formData,
@@ -805,8 +802,6 @@
             .then((response) => response.json())
             .then((data) => {
                 nameResult.innerText = data.label;
-                let imagePath = data.image_path.split("/static/").join("");
-                imageResult.setAttribute("src", `/static/${imagePath}`);
                 takePicture.style.display = "block";
                 renderDetail(data?.detail);
             })
@@ -853,7 +848,7 @@
         }
     }
     function renderDetailSeeLess() {
-        currentIndex = 0; // Reset lại currentIndex
+        currentIndex = 0;
         renderDetail();
 
         document.getElementById("seeLess").style.display = "none";
@@ -863,4 +858,21 @@
     document
         .getElementById("seeLess")
         .addEventListener("click", renderDetailSeeLess);
+
+    function displayImage(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imageResult.setAttribute("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function scrollToView() {
+        takePicture.scrollIntoView({ behavior: "smooth" });
+    }
+    searchButton.addEventListener("click", scrollToView);
+    submitButton.addEventListener("click", scrollToView);
 </script>
