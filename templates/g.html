@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+html,
+body {
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  background-image: linear-gradient(120deg, #8a9ddc, #e25f5f);
+  font-family: Inter, sans-serif;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+.tabs {
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  background: rgb(17 21 36 / 30%);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0.75rem;
+  &:has(:focus-visible) {
+    outline: 3px solid rgb(17 21 36 / 50%);
+  }
+}
+.tabs-marker {
+  position: absolute;
+  z-index: -1;
+  background: rgb(17 21 36 / 70%);
+  top: 0.4rem;
+  bottom: 0.4rem;
+  left: 0;
+  border-radius: 0.4rem;
+  transition: 0.15s;
+}
+.tabs-tab {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  appearance: none;
+  transition: all 150ms;
+  outline-width: 2px;
+  outline-offset: 2px;
+  padding: 0px;
+  border-width: 0;
+  color: inherit;
+  font-weight: 500;
+  padding: 1rem;
+  color: white;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  &:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  &.ui-active {
+    pointer-events: none;
+    color: rgba(255, 255, 255, 1);
+  }
+}
+.tabpanels {
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+.tabpanel {
+  padding: 1rem 1.25rem;
+  text-align: center;
+  min-height: 5rem;
+  display: grid;
+  place-content: center;
+  border-radius: 0.5rem;
+  &:focus-visible {
+    outline: 3px solid rgb(17 21 36 / 50%);
+  }
+  &.ui-enter-active {
+    transition: all 200ms;
+    transform-origin: center top;
+  }
+  &.ui-enter-from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+    </style>
+    <div>
+  <div data-ui-tablist="navigation" class="tabs">
+    <div class="tabs-marker"></div>
+    <button data-ui-tablist-tab="account" class="tabs-tab">Account</button>
+    <button data-ui-tablist-tab="inventory" class="tabs-tab">Inventory</button>
+    <button data-ui-tablist-tab="bonuses" class="tabs-tab">Bonuses</button>
+    <button data-ui-tablist-tab="history" class="tabs-tab">Withdrawal History</button>
+    <button data-ui-tablist-tab="support" class="tabs-tab">Support</button>
+
+  </div>
+  <div class="tabpanels">
+    <div id="account" class="tabpanel">
+      Account content
+    </div>
+    <div id="inventory" class="tabpanel" hidden>Inventory content</div>
+    <div id="bonuses" class="tabpanel" hidden>Bonuses content</div>
+    <div id="history" class="tabpanel" hidden>History content</div>
+    <div id="support" class="tabpanel" hidden>Support content</div>
+  </div>
+</div>
+</body>
+</html>
+<script type="module">
+    
+import { Tablist } from "https://cdn.jsdelivr.net/npm/jolty/dist/jolty.esm.min.js";
+
+Tablist.data("navigation", (tablist) => {
+  const marker = tablist.firstElementChild;
+
+  const setMarker = (tab) => {
+    marker.style.width = tab.offsetWidth + "px";
+    marker.style.translate = tab.offsetLeft + "px";
+  };
+
+  return {
+    data: "ui-tabs",
+    on: {
+      show(instance, { tab }) {
+        setMarker(tab);
+      }
+    }
+  };
+});
+
+Tablist.initAll();
+</script>

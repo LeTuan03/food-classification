@@ -78,21 +78,17 @@ def is_not_nan(value):
 
 
 def handleGetDetailByName(name, uploaded_image_path):
+    print(name)
     api_url = 'https://api.api-ninjas.com/v1/recipe?query={}'.format(
         name)
     response = requests.get(
         api_url, headers={'X-Api-Key': 'hr1Ux+K7r3l8/MBYaBVtyw==z3MjelZ4KdzV9eDI'})
-    if response.status_code == requests.codes.ok:
-        print(response.json())
-        return jsonify({
-            'label': name,
-            'image_path': uploaded_image_path,
-            "detail": response.json()
-        })
-    else:
-        return jsonify({
-            "message": "No information"
-        })
+
+    return jsonify({
+        'label': name,
+        'image_path': uploaded_image_path,
+        "detail": response.json()
+    })
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -178,16 +174,33 @@ def logout():
 @app.route('/process_image', methods=['POST'])
 def process_image():
     if 'photo' in request.files:
+        print(request.files)
         file = request.files['photo']
         filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filename)
-    else:
-        data = request.json
-        image_data = data.get('image_data', '').split('base64,')[-1]
+
+    predicted_label, predicted_recipe = predict_image(filename)
+    uploaded_image_path = url_for(
+        'static', filename='uploads/' + os.path.basename(filename))
+    return handleGetDetailByName(predicted_label, uploaded_image_path)
+
+
+@app.route('/process_base64', methods=['POST'])
+def process_base64():
+    data = request.json
+    image_data = data.get('image_data', '').split('base64,')[-1]
+
+    if not image_data:
+        return jsonify({"error": "Image data is missing!"}), 400
+
+    try:
         image_bytes = base64.b64decode(image_data)
-        image = Image.open(BytesIO(image_bytes))
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], "temp.png")
-        image.save(filename)
+    except base64.binascii.Error:
+        return jsonify({"error": "Invalid base64 format!"}), 400
+
+    image = Image.open(BytesIO(image_bytes))
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], "temp.png")
+    image.save(filename)
 
     predicted_label, predicted_recipe = predict_image(filename)
     uploaded_image_path = url_for(

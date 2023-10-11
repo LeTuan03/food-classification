@@ -146,7 +146,123 @@
             </article>
             <!-- end main content -->
             <main>
-                <form
+                <!-- Tabs navs -->
+                <ul
+                    class="nav nav-tabs my-3 d-flex justify-content-center font-size-2rem"
+                    id="ex-with-icons"
+                    role="tablist"
+                >
+                    <li class="nav-item" role="presentation">
+                        <a
+                            style="font-size: large"
+                            class="nav-link active"
+                            id="ex-with-icons-tab-1"
+                            data-mdb-toggle="tab"
+                            href="#ex-with-icons-tabs-1"
+                            role="tab"
+                            aria-controls="ex-with-icons-tabs-1"
+                            aria-selected="false"
+                            ><i class="fas fa-magnifying-glass"></i
+                            ><span style="padding-left: 1rem"
+                                >Search Food</span
+                            ></a
+                        >
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a
+                            style="font-size: large"
+                            class="nav-link"
+                            id="ex-with-icons-tab-2"
+                            data-mdb-toggle="tab"
+                            href="#ex-with-icons-tabs-2"
+                            role="tab"
+                            aria-controls="ex-with-icons-tabs-2"
+                            aria-selected="true"
+                            ><i class="fas fa-arrow-up-from-bracket"></i
+                            ><span style="padding-left: 1rem"
+                                >Upload Image</span
+                            ></a
+                        >
+                    </li>
+                    <li class="nav-item" role="presentation" id="open">
+                        <a
+                            style="font-size: large"
+                            class="nav-link"
+                            id="ex-with-icons-tab-3"
+                            data-mdb-toggle="tab"
+                            href="#ex-with-icons-tabs-3"
+                            role="tab"
+                            aria-controls="ex-with-icons-tabs-3"
+                            aria-selected="false"
+                            ><i class="fas fa-camera"></i
+                            ><span style="padding-left: 1rem"
+                                >Take An Image</span
+                            ></a
+                        >
+                    </li>
+                </ul>
+                <!-- Tabs navs -->
+
+                <!-- Tabs content -->
+                <div class="tab-content" id="ex-with-icons-content">
+                    <div
+                        class="tab-pane fade show active"
+                        id="ex-with-icons-tabs-1"
+                        role="tabpanel"
+                        aria-labelledby="ex-with-icons-tab-1"
+                    >
+                        Tab 1 content
+                    </div>
+                    <div
+                        class="tab-pane fade"
+                        id="ex-with-icons-tabs-2"
+                        role="tabpanel"
+                        aria-labelledby="ex-with-icons-tab-2"
+                    >
+                        <form
+                            id="imageForm"
+                            method="post"
+                            enctype="multipart/form-data"
+                            action="/process_image"
+                            class="text-center mt-5"
+                            style="display: flex; justify-content: center"
+                        >
+                            <div
+                                class="rform__bottom column xl-12"
+                                style="width: 88%"
+                            >
+                                <div class="row">
+                                    <div class="column xl-9 tab-12">
+                                        <input
+                                            type="file"
+                                            id="photoId"
+                                            name="photo"
+                                            class="d-block form-control font-size-2rem"
+                                            accept="image/png, image/gif, image/jpeg"
+                                        />
+                                    </div>
+                                    <div class="column xl-3 tab-12">
+                                        <button
+                                            name="submit"
+                                            id="submit"
+                                            class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                            type="submit"
+                                            style="height: 41px; line-height: 1"
+                                        >
+                                            Find
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div
+                        class="tab-pane fade"
+                        id="ex-with-icons-tabs-3"
+                        role="tabpanel"
+                        aria-labelledby="ex-with-icons-tab-3"
+                    >
+                        <!-- <form
                     id="imageForm"
                     method="post"
                     enctype="multipart/form-data"
@@ -176,66 +292,63 @@
                                     Find
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
-                            <div class="column xl-9 tab-12">
-                                <video
-                                    style="display: none"
-                                    id="camera"
-                                    width="640"
-                                    height="480"
-                                    autoplay
-                                ></video>
-                                <canvas
-                                    style="display: none"
-                                    id="canvas"
-                                    width="640"
-                                    height="480"
-                                ></canvas>
-                            </div>
-                            <div class="column xl-3 tab-12">
-                                <button
-                                    id="open"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    style="height: 41px; line-height: 1"
+                            <div class="column xl-12 tab-12">
+                                <div
+                                    class="d-flex justify-content-center gap-4 my-3"
                                 >
-                                    Open Camera
-                                </button>
-                                <button
-                                    id="stop"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    style="
-                                        height: 41px;
-                                        line-height: 1;
-                                        display: none;
-                                    "
+                                    <video
+                                        title="Camera"
+                                        id="camera"
+                                        width="400"
+                                        height="400"
+                                        autoplay
+                                        style="object-fit: cover"
+                                    ></video>
+                                    <canvas
+                                        title="Photograph"
+                                        id="canvas"
+                                        width="400"
+                                        height="400"
+                                    ></canvas>
+                                </div>
+
+                                <div
+                                    class="d-flex gap-4 justify-content-center"
                                 >
-                                    Stop Camera
-                                </button>
-                                <button
-                                    id="snap"
-                                    style="
-                                        display: none;
-                                        height: 41px;
-                                        line-height: 1;
-                                    "
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                >
-                                    Take A Picture
-                                </button>
-                                <button
-                                    id="search"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    style="height: 41px; line-height: 1"
-                                >
-                                    Search
-                                </button>
+                                    <button
+                                        id="snap"
+                                        style="
+                                            height: 41px;
+                                            width: fit-content;
+                                            line-height: 1;
+                                        "
+                                        class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                    >
+                                        Take A Picture
+                                    </button>
+                                    <button
+                                        id="search"
+                                        class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                        style="
+                                            height: 41px;
+                                            width: fit-content;
+                                            line-height: 1;
+                                        "
+                                    >
+                                        Search
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        <!-- </div>
+                </form> -->
                     </div>
-                </form>
+                </div>
+                <!-- Tabs content -->
 
-                <div class="row" id="takePicture">
+                <div class="row" id="takePicture" style="display: none">
                     <div class="d-flex justify-content-center">
                         <img
                             src=""
@@ -270,7 +383,7 @@
                                     height: 41px;
                                     line-height: 1;
                                     display: none;
-                                    max-width: 200px;
+                                    width: fit-content;
                                 "
                             >
                                 See more
@@ -614,7 +727,6 @@
     let snapButton = document.getElementById("snap");
     let submitButton = document.getElementById("submit");
     let openButton = document.getElementById("open");
-    let stopButton = document.getElementById("stop");
     let searchButton = document.getElementById("search");
     let uploadFunction = document.getElementById("uploadFunction");
     let takePicture = document.getElementById("takePicture");
@@ -637,20 +749,6 @@
         return inputString.split(".").join(".<br>");
     }
 
-    stopButton.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        if (currentStream) {
-            currentStream.getTracks().forEach((track) => {
-                track.stop();
-            });
-            currentStream = null;
-            video.style.display = "none";
-            canvas.style.display = "none";
-            snapButton.style.display = "none";
-            stopButton.style.display = "none";
-        }
-    });
     openButton.addEventListener("click", function (e) {
         e.preventDefault();
         navigator.mediaDevices
@@ -659,10 +757,6 @@
                 currentStream = stream;
                 video.srcObject = stream;
                 video.play();
-                video.style.display = "block";
-                canvas.style.display = "block";
-                snapButton.style.display = "block";
-                stopButton.style.display = "block";
             })
             .catch((err) => {
                 console.log(`Error: ${err}`);
@@ -670,12 +764,14 @@
     });
     snapButton.addEventListener("click", function (e) {
         e.preventDefault();
-        context.drawImage(video, 0, 0, 640, 480);
+        context.drawImage(video, 0, 0, 400, 400);
+        let imgData = canvas.toDataURL("image/png");
     });
     searchButton.addEventListener("click", function (e) {
         e.preventDefault();
         let imgData = canvas.toDataURL("image/png");
-        fetch("/process_image", {
+
+        fetch("/process_base64", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -684,10 +780,10 @@
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
-                renderDetail(data?.detail);
                 nameResult.innerText = data.label;
                 imageResult.setAttribute("src", imgData);
+                takePicture.style.display = "block";
+                renderDetail(data.detail);
             })
             .catch((error) => console.error("Error:", error));
     });
@@ -701,17 +797,17 @@
 
     function uploadImage() {
         let formData = new FormData(document.getElementById("imageForm"));
-        console.log(formData);
+
         fetch("/process_image", {
             method: "POST",
             body: formData,
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 nameResult.innerText = data.label;
                 let imagePath = data.image_path.split("/static/").join("");
                 imageResult.setAttribute("src", `/static/${imagePath}`);
+                takePicture.style.display = "block";
                 renderDetail(data?.detail);
             })
             .catch((error) => console.error("Error:", error));
@@ -720,7 +816,7 @@
     let currentIndex = 0;
     const itemsPerPage = 3;
     function renderDetail(obj) {
-        renderObj.innerHTML = ""; // Làm sạch renderObj
+        renderObj.innerHTML = "";
         let itemsToRender = obj.slice(
             currentIndex,
             currentIndex + itemsPerPage
