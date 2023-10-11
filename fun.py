@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import mysql.connector
-
+import requests
 import os
 import pandas as pd
 import numpy as np
@@ -20,6 +20,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 TF_MODEL_URL = "https://tfhub.dev/google/aiy/vision/classifier/food_V1/1"
 LABEL_MAP_URL = "aiy_food_V1_labelmap.csv"
 IMAGE_SHAPE = (192, 192)
+
+
+# Địa chỉ endpoint và API Key
+endpoint = "https://api.edamam.com/search"
+api_key = "9ca782438c98e160bd0bce9eefb597f9"
+
+# Xây dựng URL
+url = "https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9&q="
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -69,6 +77,25 @@ def is_not_nan(value):
     return True
 
 
+def handleGetDetailByName(name, uploaded_image_path):
+    api_url = 'https://api.api-ninjas.com/v1/recipe?query={}'.format(
+        name)
+    response = requests.get(
+        api_url, headers={'X-Api-Key': 'hr1Ux+K7r3l8/MBYaBVtyw==z3MjelZ4KdzV9eDI'})
+    if response.status_code == requests.codes.ok:
+        print(response.json())
+        return jsonify({
+            'label': name,
+            # 'recipe': 'no recipe',
+            'image_path': uploaded_image_path,
+            "detail": response.json()
+        })
+    else:
+        return jsonify({
+            "message": "No information"
+        })
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template('index.html')
@@ -96,11 +123,15 @@ def user():
         predicted_label, predicted_recipe = predict_image(filename)
         uploaded_image_path = url_for(
             'static', filename='uploads/' + file.filename)
-
+        detail_response = handleGetDetailByName(
+            predicted_label, uploaded_image_path)
+        detail = detail_response.json.get('detail', {})
         return render_template('user.html',
                                nameOfPredictImage=predicted_label,
                                recipe=predicted_recipe,
-                               uploaded_image=uploaded_image_path)
+                               uploaded_image=uploaded_image_path,
+                               detail=detail
+                               )
 
     return render_template('user.html',
                            nameOfPredictImage=None,
@@ -180,18 +211,9 @@ def process_image():
     image.save(filename)
 
     predicted_label, predicted_recipe = predict_image(filename)
+    print(predicted_label)
     uploaded_image_path = url_for('static', filename='uploads/temp.png')
-    if is_not_nan(predicted_recipe):
-        return jsonify({
-            'label': predicted_label,
-            'recipe': 'no recipe',
-            'image_path': uploaded_image_path
-        })
-    return jsonify({
-        'label': predicted_label,
-        'recipe': predicted_recipe,
-        'image_path': uploaded_image_path
-    })
+    return handleGetDetailByName(predicted_label, uploaded_image_path)
 
 
 @app.errorhandler(404)

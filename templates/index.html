@@ -114,7 +114,21 @@
                         <li class="current"><a href="index.html">Home</a></li>
                         <li><a href="user.html">Get to know the food</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="register.html">Reservations</a></li>
+                        {% if not session['username'] %}
+
+                        <li>
+                            <a href="/login.html">Log In</a>
+                        </li>
+
+                        {% endif %} {% if session['username'] %}
+
+                        <li>
+                            <a href="#" onclick="window.location.href='/logout'"
+                                >Log Out</a
+                            >
+                        </li>
+
+                        {% endif %}
                     </ul>
                     <!-- s-header__nav-links -->
                 </nav>

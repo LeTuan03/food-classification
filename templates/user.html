@@ -5,7 +5,7 @@
     ================================================== -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Reservations - Ffood</title>
+        <title>Generic Page - Ffood</title>
 
         <script>
             document.documentElement.classList.remove("no-js");
@@ -14,6 +14,21 @@
 
         <!-- CSS
     ================================================== -->
+        <!-- Font Awesome -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+        <!-- Google Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+        />
+        <!-- MDB -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
+            rel="stylesheet"
+        />
         <link
             rel="stylesheet"
             href="{{ url_for('static', filename='css/vendor.css') }}"
@@ -46,6 +61,19 @@
             rel="manifest"
             href="{{ url_for('static', filename='site.webmanifest') }}"
         />
+        <!-- MDB -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+        ></script>
+        <script
+            type="module"
+            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+        ></script>
+        <script
+            nomodule
+            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+        ></script>
     </head>
 
     <body id="top">
@@ -87,19 +115,19 @@
                             />
                         </a>
                     </div>
-                    <!-- s-header__nav-logo -->
-
                     <ul class="s-header__nav-links">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="menu.html">Menu</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li class="current">
-                            <a href="login.html">Reservations</a>
+                        <li>
+                            <a href="#" onclick="window.location.href='/logout'"
+                                >Log Out</a
+                            >
                         </li>
                     </ul>
-                    <!-- s-header__nav-links -->
                 </nav>
+                <!-- end s-header__nav -->
             </header>
+            <!-- end s-header -->
 
             <!-- # main content
         ================================================== -->
@@ -107,119 +135,162 @@
                 <!-- ## pageheader -->
                 <section
                     class="s-pageheader pageheader"
-                    style="background-image: url({{ url_for('static', filename='images/pageheader/pageheader-reservations-bg-3000.jpg') }});"
+                    style="background-image: url({{ url_for('static', filename='images/pageheader/pageheader-generic-bg-3000.jpg') }});"
                 >
                     <div class="row">
                         <div class="column xl-12 s-pageheader__content">
-                            <h1 class="page-title">Login Page</h1>
+                            <h1 class="page-title">Generic Page</h1>
                         </div>
                     </div>
                 </section>
-
-                <!-- ## pagecontent -->
-                <section class="s-pagecontent pagecontent">
-                    <div class="row width-narrower pageintro text-center">
-                        <div class="column xl-12">
-                            <p class="lead">
-                                Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Alias eos quas blanditiis,
-                                quos sint nostrum fugit aperiam inventore optio
-                                itaque molestias corporis, ipsa tenetur eligendi
-                                nihil iste porro, natus culpa consequuntur.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- end pageintro -->
-
-                    <div class="row width-narrower content-block">
-                        <div class="column xl-12">
-                            <form
-                                name="rform"
-                                id="rform"
-                                class="reservation-form"
-                                method="post"
-                                action="{{ url_for('login') }}"
-                                autocomplete="off"
-                                onsubmit="handleSubmit()"
-                            >
-                                <fieldset class="row">
-                                    <div class="column xl-6 tab-12">
-                                        <label for="username">Username: </label>
-                                        <input
-                                            type="text"
-                                            name="username"
-                                            id="username"
-                                            class="u-fullwidth"
-                                            placeholder="Enter Your Name"
-                                        />
-                                    </div>
-
-                                    <div class="column xl-6 tab-12">
-                                        <label for="pws">Password: </label>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            id="pws"
-                                            class="u-fullwidth"
-                                            placeholder="Enter Your Password"
-                                        />
-                                    </div>
-                                    <div class="rform__bottom column xl-12">
-                                        <div class="row">
-                                            <div class="column xl-12 tab-12">
-                                                <label
-                                                    class="rcheckbox u-add-bottom"
-                                                >
-                                                    <input type="checkbox" />
-                                                    <span class="label-text"
-                                                        >Remember me.</span
-                                                    >
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="rform__bottom column xl-12">
-                                        <div class="row">
-                                            <div class="column xl-12 tab-12">
-                                                <input
-                                                    name="submit"
-                                                    id="submit"
-                                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                                    value="Log In"
-                                                    type="submit"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="rform__bottom column xl-12 lead"
-                                    >
-                                        <div class="row">
-                                            <div class="column xl-6 tab-12">
-                                                <label
-                                                    class="rcheckbox u-add-bottom"
-                                                >
-                                                    <span class="label-text"
-                                                        >Don't have an account
-                                                        yet?
-                                                        <a href="register.html"
-                                                            >Register.</a
-                                                        >
-                                                    </span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- end content-block -->
-                </section>
-                <!-- pagecontent -->
             </article>
             <!-- end main content -->
+            <main>
+                <form
+                    id="imageForm"
+                    method="post"
+                    enctype="multipart/form-data"
+                    action="/process_image"
+                    class="text-center mt-5"
+                    style="display: flex; justify-content: center"
+                >
+                    <div class="rform__bottom column xl-12" style="width: 88%">
+                        <div class="row">
+                            <div class="column xl-9 tab-12">
+                                <input
+                                    type="file"
+                                    id="photoId"
+                                    name="photo"
+                                    class="d-block form-control font-size-2rem"
+                                    accept="image/png, image/gif, image/jpeg"
+                                />
+                            </div>
+                            <div class="column xl-3 tab-12">
+                                <button
+                                    name="submit"
+                                    id="submit"
+                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                    type="submit"
+                                    style="height: 41px; line-height: 1"
+                                >
+                                    Find
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column xl-9 tab-12">
+                                <video
+                                    style="display: none"
+                                    id="camera"
+                                    width="640"
+                                    height="480"
+                                    autoplay
+                                ></video>
+                                <canvas
+                                    style="display: none"
+                                    id="canvas"
+                                    width="640"
+                                    height="480"
+                                ></canvas>
+                            </div>
+                            <div class="column xl-3 tab-12">
+                                <button
+                                    id="open"
+                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                    style="height: 41px; line-height: 1"
+                                >
+                                    Open Camera
+                                </button>
+                                <button
+                                    id="stop"
+                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                    style="
+                                        height: 41px;
+                                        line-height: 1;
+                                        display: none;
+                                    "
+                                >
+                                    Stop Camera
+                                </button>
+                                <button
+                                    id="snap"
+                                    style="
+                                        display: none;
+                                        height: 41px;
+                                        line-height: 1;
+                                    "
+                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                >
+                                    Take A Picture
+                                </button>
+                                <button
+                                    id="search"
+                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                    style="height: 41px; line-height: 1"
+                                >
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
+                <div class="row" id="takePicture">
+                    <div class="d-flex justify-content-center">
+                        <img
+                            src=""
+                            id="takePictureId"
+                            class="img-thumbnail"
+                            style="max-width: 80%; max-height: fit-content"
+                        />
+                    </div>
+                    <div>
+                        <h3 class="text-center mt-0">Search Results</h3>
+
+                        <div class="container text-center">
+                            <p>Name of food: <span id="nameResult"></span></p>
+                            <img
+                                src=""
+                                class="img-thumbnail"
+                                id="imageResult"
+                                style="max-width: 50%; max-height: fit-content"
+                            />
+                        </div>
+
+                        <h3 class="text-center mt-0">Similar dishes</h3>
+                        <div
+                            id="renderObj"
+                            class="row d-flex justify-content-center items-center"
+                        ></div>
+                        <div class="d-flex justify-content-center mb-10">
+                            <button
+                                id="seeMore"
+                                class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                style="
+                                    height: 41px;
+                                    line-height: 1;
+                                    display: none;
+                                    max-width: 200px;
+                                "
+                            >
+                                See more
+                            </button>
+                            <button
+                                id="seeLess"
+                                class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                style="
+                                    height: 41px;
+                                    line-height: 1;
+                                    display: none;
+                                    max-width: 200px;
+                                "
+                            >
+                                See less
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
             <!-- # gallery
         ================================================== -->
             <section id="gallery" class="s-gallery">
@@ -243,8 +314,6 @@
                                     />
                                 </a>
                             </div>
-                            <!-- end gallery-items__item-->
-
                             <div
                                 class="gallery-items__item grid-list-items__item"
                             >
@@ -391,14 +460,13 @@
                 <!-- end s-gallery__inner -->
             </section>
             <!-- end s-gallery -->
-
             <!-- # footer 
         ================================================== -->
             <footer id="footer" class="s-footer">
                 <div class="row s-footer__top row-x-center">
                     <div class="column xl-4 lg-6 tab-8 mob-12">
                         <a
-                            href="login.html"
+                            href="register.html"
                             class="btn btn--primary btn--large u-fullwidth"
                             >Start here</a
                         >
@@ -534,14 +602,169 @@
 
         <!-- Java Script
     ================================================== -->
+
         <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/login.js') }}"></script>
     </body>
 </html>
 <script>
-    function handleSubmit(e) {
-        e.preventDefault();
-        console.log(e);
+    let video = document.getElementById("camera");
+    let canvas = document.getElementById("canvas");
+    let context = canvas.getContext("2d");
+    let snapButton = document.getElementById("snap");
+    let submitButton = document.getElementById("submit");
+    let openButton = document.getElementById("open");
+    let stopButton = document.getElementById("stop");
+    let searchButton = document.getElementById("search");
+    let uploadFunction = document.getElementById("uploadFunction");
+    let takePicture = document.getElementById("takePicture");
+    let takePictureId = document.getElementById("takePictureId");
+    let takePictureName = document.getElementById("takePictureName");
+    let takePictureRecipe = document.getElementById("takePictureRecipe");
+    let detailInfor = document.getElementById("detailInfor");
+    let renderObj = document.getElementById("renderObj");
+    let seeMore = document.getElementById("seeMore");
+    let seeLess = document.getElementById("seeLess");
+    let nameResult = document.getElementById("nameResult");
+    let imageResult = document.getElementById("imageResult");
+
+    let currentStream;
+
+    function convertString(inputString) {
+        return inputString.split("|").join("<br>");
     }
+    function convertStringDotded(inputString) {
+        return inputString.split(".").join(".<br>");
+    }
+
+    stopButton.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        if (currentStream) {
+            currentStream.getTracks().forEach((track) => {
+                track.stop();
+            });
+            currentStream = null;
+            video.style.display = "none";
+            canvas.style.display = "none";
+            snapButton.style.display = "none";
+            stopButton.style.display = "none";
+        }
+    });
+    openButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        navigator.mediaDevices
+            .getUserMedia({ video: true })
+            .then((stream) => {
+                currentStream = stream;
+                video.srcObject = stream;
+                video.play();
+                video.style.display = "block";
+                canvas.style.display = "block";
+                snapButton.style.display = "block";
+                stopButton.style.display = "block";
+            })
+            .catch((err) => {
+                console.log(`Error: ${err}`);
+            });
+    });
+    snapButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        context.drawImage(video, 0, 0, 640, 480);
+    });
+    searchButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        let imgData = canvas.toDataURL("image/png");
+        fetch("/process_image", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ image_data: imgData }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                renderDetail(data?.detail);
+                nameResult.innerText = data.label;
+                imageResult.setAttribute("src", imgData);
+            })
+            .catch((error) => console.error("Error:", error));
+    });
+
+    document
+        .getElementById("imageForm")
+        .addEventListener("submit", function (event) {
+            event.preventDefault();
+            uploadImage();
+        });
+
+    function uploadImage() {
+        let formData = new FormData(document.getElementById("imageForm"));
+        console.log(formData);
+        fetch("/process_image", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                nameResult.innerText = data.label;
+                let imagePath = data.image_path.split("/static/").join("");
+                imageResult.setAttribute("src", `/static/${imagePath}`);
+                renderDetail(data?.detail);
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+
+    let currentIndex = 0;
+    const itemsPerPage = 3;
+    function renderDetail(obj) {
+        renderObj.innerHTML = ""; // Làm sạch renderObj
+        let itemsToRender = obj.slice(
+            currentIndex,
+            currentIndex + itemsPerPage
+        );
+        if (!itemsToRender.length) return;
+        for (let item of itemsToRender) {
+            renderObj.innerHTML += `
+            <div class="card mb-10" style="cursor: pointer; width: 80%;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between"><b class="mt-1 font-weight-bold">${
+                        item.title
+                    }</b><ion-icon name="heart-outline"></ion-icon></div>
+                    <h6 class="card-subtitle mb-4 text-muted">${
+                        item.servings
+                    }</h6>
+                    <div class="mb-2">
+                        <div class="card-text"><b>Ingredients: </b><br><div class="pl-3">${convertString(
+                            item.ingredients
+                        )}</div></div>
+                    </div>
+                    <div>
+                        <div class="card-text"><b>Instructions: </b><br><div class="pl-3">${convertStringDotded(
+                            item.instructions
+                        )}</div></div>
+                    </div>
+                </div>
+            </div>`;
+        }
+        currentIndex += itemsPerPage;
+
+        if (currentIndex >= obj.length) {
+            document.getElementById("seeMore").style.display = "none";
+            document.getElementById("seeLess").style.display = "block";
+        }
+    }
+    function renderDetailSeeLess() {
+        currentIndex = 0; // Reset lại currentIndex
+        renderDetail();
+
+        document.getElementById("seeLess").style.display = "none";
+        document.getElementById("seeMore").style.display = "block";
+    }
+    document.getElementById("seeMore").addEventListener("click", renderDetail);
+    document
+        .getElementById("seeLess")
+        .addEventListener("click", renderDetailSeeLess);
 </script>

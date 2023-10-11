@@ -22,6 +22,7 @@
             rel="stylesheet"
             href="{{ url_for('static', filename='css/styles.css') }}"
         />
+
         <!-- favicons
     ================================================== -->
         <link
@@ -90,17 +91,14 @@
 
                     <ul class="s-header__nav-links">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="menu.html">Menu</a></li>
                         <li><a href="about.html">About</a></li>
                         <li class="current">
-                            <a href="register.html">Reservations</a>
+                            <a href="register.html">Register</a>
                         </li>
                     </ul>
                     <!-- s-header__nav-links -->
                 </nav>
-                <!-- end s-header__nav -->
             </header>
-            <!-- end s-header -->
 
             <!-- # main content
         ================================================== -->
@@ -112,7 +110,7 @@
                 >
                     <div class="row">
                         <div class="column xl-12 s-pageheader__content">
-                            <h1 class="page-title">Register Page</h1>
+                            <h1 class="page-title">Login Page</h1>
                         </div>
                     </div>
                 </section>
@@ -139,16 +137,17 @@
                                 id="rform"
                                 class="reservation-form"
                                 method="post"
-                                action=""
+                                action="{{ url_for('login') }}"
                                 autocomplete="off"
+                                onsubmit="handleSubmit()"
                             >
                                 <fieldset class="row">
                                     <div class="column xl-6 tab-12">
-                                        <label for="usernameId">Name: </label>
+                                        <label for="username">Username: </label>
                                         <input
                                             type="text"
                                             name="username"
-                                            id="usernameId"
+                                            id="username"
                                             class="u-fullwidth"
                                             placeholder="Enter Your Name"
                                         />
@@ -166,7 +165,7 @@
                                     </div>
                                     <div class="rform__bottom column xl-12">
                                         <div class="row">
-                                            <div class="column xl-6 tab-12">
+                                            <div class="column xl-12 tab-12">
                                                 <label
                                                     class="rcheckbox u-add-bottom"
                                                 >
@@ -180,31 +179,30 @@
                                     </div>
                                     <div class="rform__bottom column xl-12">
                                         <div class="row">
-                                            <div
-                                                class="column xl-12 tab-12"
-                                                onclick="register()"
-                                            >
+                                            <div class="column xl-12 tab-12">
                                                 <input
                                                     name="submit"
                                                     id="submit"
                                                     class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                                    value="Register"
+                                                    value="Log In"
                                                     type="submit"
                                                 />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="rform__bottom column xl-12">
+                                    <div
+                                        class="rform__bottom column xl-12 lead"
+                                    >
                                         <div class="row">
-                                            <div class="column xl-12 tab-12">
+                                            <div class="column xl-6 tab-12">
                                                 <label
                                                     class="rcheckbox u-add-bottom"
                                                 >
                                                     <span class="label-text"
-                                                        >Already have an
-                                                        account.
-                                                        <a href="login.html"
-                                                            >Login now.</a
+                                                        >Don't have an account
+                                                        yet?
+                                                        <a href="register.html"
+                                                            >Register.</a
                                                         >
                                                     </span>
                                                 </label>
@@ -399,7 +397,7 @@
                 <div class="row s-footer__top row-x-center">
                     <div class="column xl-4 lg-6 tab-8 mob-12">
                         <a
-                            href="register.html"
+                            href="login.html"
                             class="btn btn--primary btn--large u-fullwidth"
                             >Start here</a
                         >
@@ -537,6 +535,12 @@
     ================================================== -->
         <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/login.js') }}"></script>
     </body>
 </html>
+<script>
+    function handleSubmit(e) {
+        e.preventDefault();
+        console.log(e);
+    }
+</script>

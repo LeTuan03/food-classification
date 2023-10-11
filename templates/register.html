@@ -5,7 +5,7 @@
     ================================================== -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Generic Page - Ffood</title>
+        <title>Reservations - Ffood</title>
 
         <script>
             document.documentElement.classList.remove("no-js");
@@ -14,21 +14,6 @@
 
         <!-- CSS
     ================================================== -->
-        <!-- Font Awesome -->
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            rel="stylesheet"
-        />
-        <!-- Google Fonts -->
-        <link
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-            rel="stylesheet"
-        />
-        <!-- MDB -->
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
-            rel="stylesheet"
-        />
         <link
             rel="stylesheet"
             href="{{ url_for('static', filename='css/vendor.css') }}"
@@ -37,7 +22,6 @@
             rel="stylesheet"
             href="{{ url_for('static', filename='css/styles.css') }}"
         />
-
         <!-- favicons
     ================================================== -->
         <link
@@ -61,11 +45,6 @@
             rel="manifest"
             href="{{ url_for('static', filename='site.webmanifest') }}"
         />
-        <!-- MDB -->
-        <script
-            type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-        ></script>
     </head>
 
     <body id="top">
@@ -107,18 +86,16 @@
                             />
                         </a>
                     </div>
+                    <!-- s-header__nav-logo -->
 
                     <ul class="s-header__nav-links">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="menu.html">Menu</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="register.html">Reservations</a></li>
                         <li>
-                            <a href="#" onclick="window.location.href='/logout'"
-                                >Log Out</a
-                            >
+                            <a href="login.html">Login</a>
                         </li>
                     </ul>
+                    <!-- s-header__nav-links -->
                 </nav>
                 <!-- end s-header__nav -->
             </header>
@@ -130,124 +107,119 @@
                 <!-- ## pageheader -->
                 <section
                     class="s-pageheader pageheader"
-                    style="background-image: url({{ url_for('static', filename='images/pageheader/pageheader-generic-bg-3000.jpg') }});"
+                    style="background-image: url({{ url_for('static', filename='images/pageheader/pageheader-reservations-bg-3000.jpg') }});"
                 >
                     <div class="row">
                         <div class="column xl-12 s-pageheader__content">
-                            <h1 class="page-title">Generic Page</h1>
+                            <h1 class="page-title">Register Page</h1>
                         </div>
                     </div>
                 </section>
+
+                <!-- ## pagecontent -->
+                <section class="s-pagecontent pagecontent">
+                    <div class="row width-narrower pageintro text-center">
+                        <div class="column xl-12">
+                            <p class="lead">
+                                Lorem ipsum dolor sit amet consectetur,
+                                adipisicing elit. Alias eos quas blanditiis,
+                                quos sint nostrum fugit aperiam inventore optio
+                                itaque molestias corporis, ipsa tenetur eligendi
+                                nihil iste porro, natus culpa consequuntur.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- end pageintro -->
+
+                    <div class="row width-narrower content-block">
+                        <div class="column xl-12">
+                            <form
+                                name="rform"
+                                id="rform"
+                                class="reservation-form"
+                                method="post"
+                                action=""
+                                autocomplete="off"
+                            >
+                                <fieldset class="row">
+                                    <div class="column xl-6 tab-12">
+                                        <label for="usernameId">Name: </label>
+                                        <input
+                                            type="text"
+                                            name="username"
+                                            id="usernameId"
+                                            class="u-fullwidth"
+                                            placeholder="Enter Your Name"
+                                        />
+                                    </div>
+
+                                    <div class="column xl-6 tab-12">
+                                        <label for="pws">Password: </label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            id="pws"
+                                            class="u-fullwidth"
+                                            placeholder="Enter Your Password"
+                                        />
+                                    </div>
+                                    <div class="rform__bottom column xl-12">
+                                        <div class="row">
+                                            <div class="column xl-6 tab-12">
+                                                <label
+                                                    class="rcheckbox u-add-bottom"
+                                                >
+                                                    <input type="checkbox" />
+                                                    <span class="label-text"
+                                                        >Remember me.</span
+                                                    >
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="rform__bottom column xl-12">
+                                        <div class="row">
+                                            <div
+                                                class="column xl-12 tab-12"
+                                                onclick="register()"
+                                            >
+                                                <input
+                                                    name="submit"
+                                                    id="submit"
+                                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
+                                                    value="Register"
+                                                    type="submit"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="rform__bottom column xl-12">
+                                        <div class="row">
+                                            <div class="column xl-12 tab-12">
+                                                <label
+                                                    class="rcheckbox u-add-bottom"
+                                                >
+                                                    <span class="label-text"
+                                                        >Already have an
+                                                        account.
+                                                        <a href="login.html"
+                                                            >Login now.</a
+                                                        >
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- end content-block -->
+                </section>
+                <!-- pagecontent -->
             </article>
             <!-- end main content -->
-            <main>
-                <form
-                    method="post"
-                    enctype="multipart/form-data"
-                    action="/user.html"
-                    class="text-center mt-5"
-                >
-                    <div class="rform__bottom column xl-12">
-                        <div class="row">
-                            <div class="column xl-9 tab-12">
-                                <input
-                                    type="file"
-                                    id="photoId"
-                                    name="photo"
-                                    class="d-block form-control font-size-2rem"
-                                    accept="image/png, image/gif, image/jpeg"
-                                />
-                            </div>
-                            <div class="column xl-3 tab-12">
-                                <button
-                                    name="submit"
-                                    id="submit"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    type="submit"
-                                    style="height: 41px; line-height: 1"
-                                >
-                                    Find
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="column xl-9 tab-12">
-                                <video
-                                    style="display: none"
-                                    id="camera"
-                                    width="640"
-                                    height="480"
-                                    autoplay
-                                ></video>
-                                <canvas
-                                    style="display: none"
-                                    id="canvas"
-                                    width="640"
-                                    height="480"
-                                ></canvas>
-                            </div>
-                            <div class="column xl-3 tab-12">
-                                <button
-                                    id="open"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    style="height: 41px; line-height: 1"
-                                >
-                                    Open Camera
-                                </button>
-                                <button
-                                    id="stop"
-                                    style="display: none"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    style="height: 41px; line-height: 1"
-                                >
-                                    Stop Camera
-                                </button>
-                                <button
-                                    id="snap"
-                                    style="display: none"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    style="height: 41px; line-height: 1"
-                                >
-                                    Take A Picture
-                                </button>
-                                <button
-                                    id="search"
-                                    class="btn btn--primary btn-wide btn--large u-fullwidth"
-                                    style="height: 41px; line-height: 1"
-                                >
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
 
-                <!-- hiển thị thông tin ảnh sau khi đã xử lí  -->
-
-                <div style="min-height: 1000px" class="row">
-                    <div class="d-flex justify-content-center">
-                        {% if uploaded_image %}
-                        <img
-                            src="{{ uploaded_image }}"
-                            class="img-thumbnail"
-                            style="max-width: 80%; max-height: fit-content"
-                        />
-                        {% endif %}
-                    </div>
-                    <div>
-                        {% if nameOfPredictImage %}
-                        <p>
-                            Name of food:
-                            <span>{{ nameOfPredictImage }}</span>
-                        </p>
-                        <span> Recipe: </span>
-                        <div>
-                            <p>{{ recipe }}</p>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </main>
             <!-- # gallery
         ================================================== -->
             <section id="gallery" class="s-gallery">
@@ -271,6 +243,8 @@
                                     />
                                 </a>
                             </div>
+                            <!-- end gallery-items__item-->
+
                             <div
                                 class="gallery-items__item grid-list-items__item"
                             >
@@ -417,6 +391,7 @@
                 <!-- end s-gallery__inner -->
             </section>
             <!-- end s-gallery -->
+
             <!-- # footer 
         ================================================== -->
             <footer id="footer" class="s-footer">
@@ -559,92 +534,8 @@
 
         <!-- Java Script
     ================================================== -->
-
         <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/register.js') }}"></script>
     </body>
 </html>
-<script>
-    let video = document.getElementById("camera");
-    let canvas = document.getElementById("canvas");
-    let context = canvas.getContext("2d");
-    let snapButton = document.getElementById("snap");
-    let openButton = document.getElementById("open");
-    let stopButton = document.getElementById("stop");
-    let searchButton = document.getElementById("search");
-    let currentStream;
-
-    stopButton.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        if (currentStream) {
-            currentStream.getTracks().forEach((track) => {
-                track.stop();
-            });
-            currentStream = null;
-            video.style.display = "none";
-            canvas.style.display = "none";
-            snapButton.style.display = "none";
-            stopButton.style.display = "none";
-        }
-    });
-    openButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        navigator.mediaDevices
-            .getUserMedia({ video: true })
-            .then((stream) => {
-                currentStream = stream;
-                video.srcObject = stream;
-                video.play();
-                video.style.display = "block";
-                canvas.style.display = "block";
-                snapButton.style.display = "block";
-                stopButton.style.display = "block";
-            })
-            .catch((err) => {
-                console.log(`Error: ${err}`);
-            });
-    });
-
-    snapButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        context.drawImage(video, 0, 0, 640, 480);
-        let imgData = canvas.toDataURL("image/png");
-        fetch("/process_image", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ image_data: imgData }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    });
-    search.addEventListener("click", async function (e) {
-        e.preventDefault();
-        const url =
-            "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query=pasta&cuisine=italian&excludeCuisine=greek&diet=vegetarian&intolerances=gluten&equipment=pan&includeIngredients=tomato%2Ccheese&excludeIngredients=eggs&type=main%20course&instructionsRequired=true&fillIngredients=false&addRecipeInformation=false&titleMatch=Crock%20Pot&maxReadyTime=20&ignorePantry=true&sort=calories&sortDirection=asc&minCarbs=10&maxCarbs=100&minProtein=10&maxProtein=100&minCalories=50&maxCalories=800&minFat=10&maxFat=100&minAlcohol=0&maxAlcohol=100&minCaffeine=0&maxCaffeine=100&minCopper=0&maxCopper=100&minCalcium=0&maxCalcium=100&minCholine=0&maxCholine=100&minCholesterol=0&maxCholesterol=100&minFluoride=0&maxFluoride=100&minSaturatedFat=0&maxSaturatedFat=100&minVitaminA=0&maxVitaminA=100&minVitaminC=0&maxVitaminC=100&minVitaminD=0&maxVitaminD=100&minVitaminE=0&maxVitaminE=100&minVitaminK=0&maxVitaminK=100&minVitaminB1=0&maxVitaminB1=100&minVitaminB2=0&maxVitaminB2=100&minVitaminB5=0&maxVitaminB5=100&minVitaminB3=0&maxVitaminB3=100&minVitaminB6=0&maxVitaminB6=100&minVitaminB12=0&maxVitaminB12=100&minFiber=0&maxFiber=100&minFolate=0&maxFolate=100&minFolicAcid=0&maxFolicAcid=100&minIodine=0&maxIodine=100&minIron=0&maxIron=100&minMagnesium=0&maxMagnesium=100&minManganese=0&maxManganese=100&minPhosphorus=0&maxPhosphorus=100&minPotassium=0&maxPotassium=100&minSelenium=0&maxSelenium=100&minSodium=0&maxSodium=100&minSugar=0&maxSugar=100&minZinc=0&maxZinc=100&offset=0&number=10&limitLicense=false&ranking=2";
-        const options = {
-            method: "GET",
-            headers: {
-                "X-RapidAPI-Key":
-                    "08909d437bmsh7f602454318ef98p116b48jsn5c997a86d56b",
-                "X-RapidAPI-Host":
-                    "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-            },
-        };
-
-        try {
-            const response = await fetch(url, options);
-            const result = await response.text();
-            console.log(result);
-        } catch (error) {
-            console.error(error);
-        }
-    });
-</script>
