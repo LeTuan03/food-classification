@@ -2907,6 +2907,9 @@ body.menu-is-open {
     top: min(var(--vspace-0_75), 4vh);
     left: 0;
 }
+*::-webkit-scrollbar {
+    display: none !important;
+}
 
 .s-header__block {
     z-index: 101;
@@ -4919,4 +4922,17 @@ button:hover .icon-3 {
     100% {
         transform: rotate(0);
     }
+}
+
+.border-css {
+    border-radius: 8px;
+    background: #e0e0e0;
+    box-shadow: 8px 8px 17px #b5b5b5, -8px -8px 17px #ffffff;
+    width: 45%;
+    margin: 1% 2.5%;
+}
+.border-css-2 {
+    border-radius: 8px;
+    background: #e0e0e0;
+    box-shadow: 5px 5px 0px #d3d3d3, -5px -5px 0px #ededed;
 }

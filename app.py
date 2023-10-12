@@ -133,6 +133,7 @@ def login():
                 if result:
                     session['logged_in'] = True
                     session['username'] = username
+                    session['password'] = password
                     print("Login successed")
                     return redirect('/')
                 else:
@@ -142,6 +143,7 @@ def login():
                 cursor.close()
                 connection.close()
     username = session.get('username', None)
+    password = session.get('password', None)
     return render_template('login.html')
 
 
@@ -170,8 +172,6 @@ def register():
                 print(err)
                 cursor.close()
                 connection.close()
-
-    return render_template('register.html')
 
     return render_template('register.html')
 
@@ -233,6 +233,18 @@ def process_text():
         return jsonify({
             "message": "No information"
         })
+
+
+@app.route('/profile.html', methods=['GET', 'POST'])
+def profile():
+
+    return render_template("profile.html")
+
+
+@app.route('/favorites.html', methods=['GET', 'POST'])
+def favorites():
+
+    return render_template("favorites.html")
 
 
 @app.errorhandler(404)

@@ -90,34 +90,29 @@
                     >
 
                     <div class="s-header__nav-logo">
-                        <a href="index.html">
-                            <img
-                                src="{{ url_for('static',
-                            filename='images/logo.svg') }}"
-                                alt="Homepage"
-                            />
-                        </a>
+                        <a href="index.html"> Ffood </a>
                     </div>
                     <!-- s-header__nav-logo -->
 
                     <ul class="s-header__nav-links">
                         <li class="current"><a href="index.html">Home</a></li>
-                        <li><a href="user.html">Get to know the food</a></li>
                         <li><a href="about.html">About</a></li>
                         {% if not session['username'] %}
-
                         <li>
-                            <a href="/login.html">Log In</a>
+                            <a href="register.html">Register</a>
                         </li>
-
+                        <li>
+                            <a href="login.html">Log In</a>
+                        </li>
                         {% endif %} {% if session['username'] %}
-
+                        <li><a href="user.html">Get to know the food</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="favorites.html">Favorites</a></li>
                         <li>
                             <a href="#" onclick="window.location.href='/logout'"
                                 >Log Out</a
                             >
                         </li>
-
                         {% endif %}
                     </ul>
                     <!-- s-header__nav-links -->
