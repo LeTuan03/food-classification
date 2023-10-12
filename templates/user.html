@@ -198,7 +198,7 @@
                             aria-selected="false"
                             ><i class="fas fa-camera"></i
                             ><span style="padding-left: 1rem"
-                                >Take An Image</span
+                                >Take A Photo</span
                             ></a
                         >
                     </li>
@@ -226,7 +226,10 @@
                                 style="width: 88%"
                             >
                                 <div class="row">
-                                    <div class="column xl-9 tab-12">
+                                    <div
+                                        class="column xl-9 tab-12"
+                                        style="padding-right: 0"
+                                    >
                                         <input
                                             id="searchName"
                                             name="searchName"
@@ -269,7 +272,10 @@
                                 style="width: 88%"
                             >
                                 <div class="row">
-                                    <div class="column xl-9 tab-12">
+                                    <div
+                                        class="column xl-9 tab-12"
+                                        style="padding-right: 0"
+                                    >
                                         <input
                                             type="file"
                                             id="photoId"
@@ -741,6 +747,7 @@
     let listItemSearch = document.getElementById("listItemSearch");
     let searchName = document.getElementById("searchName");
     let searchResult = document.getElementById("searchResult");
+    let showLoading = document.getElementById("showLoading");
     let currentStream;
 
     function convertString(inputString) {
@@ -772,7 +779,7 @@
     searchButton.addEventListener("click", function (e) {
         e.preventDefault();
         let imgData = canvas.toDataURL("image/png");
-
+        ssPreloader();
         fetch("/process_base64", {
             method: "POST",
             headers: {
@@ -786,8 +793,9 @@
                 imageResult.setAttribute("src", imgData);
                 takePicture.style.display = "block";
                 renderDetail(data.detail);
+                ssPreloaded();
             })
-            .catch((error) => console.error("Error:", error));
+            .catch((error) => ssPreloaded());
     });
 
     document
@@ -798,8 +806,8 @@
         });
 
     function uploadImage() {
+        ssPreloader();
         let formData = new FormData(document.getElementById("imageForm"));
-        console.log(formData);
         fetch("/process_image", {
             method: "POST",
             body: formData,
@@ -809,8 +817,9 @@
                 nameResult.innerText = data.label;
                 takePicture.style.display = "block";
                 renderDetail(data?.detail);
+                ssPreloaded();
             })
-            .catch((error) => console.error("Error:", error));
+            .catch((error) => ssPreloaded());
     }
     document
         .getElementById("searchForm")
@@ -820,6 +829,7 @@
         });
 
     function searchByText() {
+        ssPreloader();
         fetch("/process_text", {
             method: "POST",
             body: JSON.stringify({ searchName: searchName.value }),
@@ -938,8 +948,9 @@
                 });
                 searchResult.style.display = "";
                 listItemSearch.innerHTML = dataJson.join("");
+                ssPreloaded();
             })
-            .catch((error) => console.error("Error:", error));
+            .catch((error) => ssPreloaded());
     }
 
     function showModal(data) {
@@ -1015,10 +1026,17 @@
     submitButton.addEventListener("click", scrollToView);
 
     function ssPreloader() {
-        const preloader = document.querySelector("#preloader");
-        const loader = document.querySelector("#preloader");
-        preloader.classList.add("custom-loading-preloader");
-        loader.classList.add("custom-loading-loader");
+        document.getElementById("preloader").style.display = "";
+        document.getElementById("preloader").style.opacity = 1;
+        document.getElementById("preloader").style.visibility = "visible";
+        document.getElementById("loader").style.opacity = 1;
+    }
+
+    function ssPreloaded() {
+        document.getElementById("preloader").style.display = "none";
+        document.getElementById("preloader").style.opacity = 0;
+        document.getElementById("preloader").style.visibility = "hidden";
+        document.getElementById("loader").style.opacity = 0;
     }
 
     function resetFrame() {

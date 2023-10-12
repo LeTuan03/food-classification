@@ -6,12 +6,11 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
-import hashlib
 import base64
 from io import BytesIO
 from PIL import Image
 from urllib.parse import quote
-
+import random
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Đặt secret key cho ứng dụng Flask
@@ -72,6 +71,14 @@ def get_db_connection():
         return None
 
 
+def is_id_exists(connection, id):
+    cursor = connection.cursor()
+    cursor.execute("SELECT 1 FROM loginapp.list_user WHERE id = %s", (id,))
+    result = cursor.fetchone()
+    cursor.close()
+    return result is not None
+
+
 def is_not_nan(value):
     if isinstance(value, (int, float, np.number)):
         return np.isnan(value)
@@ -83,7 +90,6 @@ def handleGetDetailByName(name, uploaded_image_path):
         name)
     response = requests.get(
         api_url, headers={'X-Api-Key': 'hr1Ux+K7r3l8/MBYaBVtyw==z3MjelZ4KdzV9eDI'})
-    print(response.json())
     return jsonify({
         'label': name,
         'image_path': uploaded_image_path,
@@ -113,14 +119,14 @@ def user():
 @app.route('/login.html', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
         connection = get_db_connection()
         if connection:
             try:
                 cursor = connection.cursor()
                 cursor.execute(
-                    "SELECT * FROM list_user WHERE username = %s AND password = %s", (username, password))
+                    "SELECT * FROM loginapp.list_user WHERE username = %s AND password = %s", (username, password))
                 result = cursor.fetchone()
                 cursor.close()
                 connection.close()
@@ -142,14 +148,19 @@ def login():
 @app.route('/register.html', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
+        random_id = random.randint(100000, 999999)
         connection = get_db_connection()
         if connection:
             try:
+                random_id = random.randint(100000, 999999)
+                while is_id_exists(connection, random_id):
+                    random_id = random.randint(100000, 999999)
+
                 cursor = connection.cursor()
                 cursor.execute(
-                    "INSERT INTO list_user VALUE (%s, %s)", (username, password))
+                    "INSERT INTO loginapp.list_user (username, password, id) VALUE (%s, %s, %s)", (username, password, random_id))
                 connection.commit()
                 print("Account created successed")
                 cursor.close()
@@ -159,6 +170,8 @@ def register():
                 print(err)
                 cursor.close()
                 connection.close()
+
+    return render_template('register.html')
 
     return render_template('register.html')
 
