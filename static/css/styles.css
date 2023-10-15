@@ -5091,3 +5091,15 @@ button:hover .icon-3 {
         opacity: 0;
     }
 }
+
+.image-warper {
+    display: flex;
+    justify-content: center;
+}
+.cart {
+    margin-top: 10px;
+    margin-bottom: -20px;
+    border-radius: 6px;
+    background: #e0e0e0;
+    box-shadow: inset 8px 8px 4px #c5c5c5, inset -8px -8px 4px #fbfbfb;
+}

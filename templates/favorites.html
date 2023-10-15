@@ -152,7 +152,33 @@
             </article>
             <!-- end main content -->
             <main>
-                <div class="d-flex flex-wrap container">
+                <div class="d-flex flex-wrap container" id="container">
+                    <div class="p-3 border-css">
+                        <b>Title</b>
+                        <br />
+                        <small
+                            >Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Tenetur rem magnam sit ratione repudiandae
+                            deserunt ipsam laborum voluptatem saepe. Quidem
+                            expedita vel veritatis odit quia repudiandae
+                            pariatur, ea corporis. Veniam!</small
+                        >
+                        <br />
+                        <a href="#">Read more</a>
+                    </div>
+                    <div class="p-3 border-css">
+                        <b>Title</b>
+                        <br />
+                        <small
+                            >Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Tenetur rem magnam sit ratione repudiandae
+                            deserunt ipsam laborum voluptatem saepe. Quidem
+                            expedita vel veritatis odit quia repudiandae
+                            pariatur, ea corporis. Veniam!</small
+                        >
+                        <br />
+                        <a href="#">Read more</a>
+                    </div>
                     <div class="p-3 border-css">
                         <b>Title</b>
                         <br />
@@ -306,3 +332,34 @@
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>
+<script>
+    window.onload = () => {
+        let dataClone = [];
+        fetch("/get_favorites")
+            .then((data) => data.json())
+            .then((data) => {
+                data.favorites.map((e) => {
+                    dataClone.push(JSON.parse(e.value));
+                    console.log(dataClone);
+                });
+            })
+            .finally(() => {
+                let container = document.getElementById("container");
+                let dataJson = dataClone.map((i) => {
+                    let ingredientText = i.ingredientLines.join("<br>");
+
+                    return ` 
+                    <div class="p-3 border-css">
+                        <b>${i.label}</b>
+                        <div class="image-warper"><img src="${i.image}" class="cart" /></div>
+                        <br />
+                        <small>${ingredientText}</small>
+                        <br />
+                        <a href="${i.url}">Read more</a>
+                    </div>
+                `;
+                });
+                container.innerHTML = dataJson.join("");
+            });
+    };
+</script>

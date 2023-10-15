@@ -11,9 +11,11 @@ from io import BytesIO
 from PIL import Image
 from urllib.parse import quote
 import random
+import json
+
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Đặt secret key cho ứng dụng Flask
+app.secret_key = 'your_secret_key'
 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -62,8 +64,8 @@ def get_db_connection():
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="pass",
-            database="databasename"
+            password="Letuan191003+",
+            database="loginapp"
         )
         return connection
     except mysql.connector.Error as err:
@@ -121,31 +123,37 @@ def login():
     if request.method == 'POST':
         username = request.form['username'].strip()
         password = request.form['password'].strip()
+
         connection = get_db_connection()
-        if connection:
-            try:
-                cursor = connection.cursor()
-                cursor.execute(
-                    "SELECT * FROM loginapp.list_user WHERE username = %s AND password = %s", (username, password))
-                result = cursor.fetchone()
-                cursor.close()
-                connection.close()
-                if result:
-                    session['logged_in'] = True
-                    session['username'] = username
-                    session['password'] = password
-                    if result[2]:
-                        session['user_id'] = result[2]
-                    flash("Login succeeded", "success")
-                    return redirect('/')
-                else:
-                    flash("Username or password error", "danger")
-                    return render_template('login.html')
-            except mysql.connector.Error as err:
-                flash(f"Err: {err}", "danger")
-                cursor.close()
-                connection.close()
-    username = session.get('username', None)
+        if not connection:
+            flash("Database connection error", "danger")
+            return render_template('login.html')
+
+        try:
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(
+                "SELECT id, username FROM loginapp.list_user WHERE username = %s AND password = %s",
+                (username, password)
+            )
+            result = cursor.fetchone()
+
+            if result:
+                session['logged_in'] = True
+                session['username'] = result['username']
+                session['user_id'] = result['id']
+                flash("Login succeeded", "success")
+                return redirect('/')
+            else:
+                flash("Username or password error", "danger")
+                return render_template('login.html')
+
+        except mysql.connector.Error as err:
+            flash(f"Err: {err}", "danger")
+
+        finally:
+            cursor.close()
+            connection.close()
+
     return render_template('login.html')
 
 
@@ -236,45 +244,94 @@ def process_text():
         })
 
 
-@app.route('/add_to_favorite', methods=['GET', 'POST'])
-def add_to_favorite():
-    user_id = session.get('user_id', None)
-    print(user_id)
-    if not user_id:
-        return redirect('/login')
-
-    data = request.get_json()
-    searchValue = data.get("value", "")
-    print(searchValue)
-    connection = get_db_connection()
-    if connection:
-        try:
-            cursor = connection.cursor()
-            cursor.execute(
-                "UPDATE loginapp.list_user SET listFavorites = %s WHERE id = %s", (searchValue, user_id))
-            connection.commit()
-            cursor.close()
-            connection.close()
-            return jsonify({"true"})
-        except mysql.connector.Error as err:
-            flash(f"Err: {err}", "danger")
-            cursor.close()
-            connection.close()
-            return jsonify({"false"})
-    else:
-        return jsonify({"false"})
-
-
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
 
     return render_template("profile.html")
 
 
-@app.route('/favorites', methods=['GET', 'POST'])
+@app.route('/favorites', methods=['GET'])
 def favorites():
-
     return render_template("favorites.html")
+
+
+@app.route('/add_to_favorite', methods=['POST'])
+def add_to_favorite():
+    user_id = session.get('user_id', None)
+    if not user_id:
+        return jsonify({"success": False, "error": "Not logged in"})
+
+    data = request.get_json()
+    searchValue = data
+
+    connection = get_db_connection()
+    if not connection:
+        return jsonify({"success": False, "error": "Database connection error"})
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(
+            "SELECT listFavorites FROM loginapp.list_user WHERE id = %s", (user_id,))
+        result = cursor.fetchone()
+
+        current_favorites = json.loads(
+            result['listFavorites']) if result and result['listFavorites'] else []
+        current_favorites.append(searchValue)
+
+        updated_favorites = json.dumps(current_favorites)
+
+        cursor.execute(
+            "UPDATE loginapp.list_user SET listFavorites = %s WHERE id = %s", (updated_favorites, user_id))
+        connection.commit()
+
+        return jsonify({"success": True})
+
+    except mysql.connector.Error as err:
+        return jsonify({"success": False, "error": str(err)})
+    except json.JSONDecodeError as e:
+        print(
+            f"Error: {e}. String: {result and result.get('listFavorites', '')}")
+        return jsonify({"success": False, "error": "Failed to decode JSON"})
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+@app.route('/get_favorites', methods=['GET'])
+def get_favorites():
+    user_id = session.get('user_id', None)
+    if not user_id:
+        return jsonify({"success": False, "message": "Please log in to view your favorites."})
+
+    connection = get_db_connection()
+    if not connection:
+        return jsonify({"success": False, "message": "Database connection error", "favorites": []})
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(
+            "SELECT listFavorites FROM loginapp.list_user WHERE id = %s",
+            (user_id,)
+        )
+        result = cursor.fetchone()
+
+        if result and result['listFavorites']:
+            # Decode the JSON string into a Python object
+            favorites_list = json.loads(result['listFavorites'])
+        else:
+            favorites_list = []
+
+    except mysql.connector.Error as err:
+        return jsonify({"success": False, "message": f"Error fetching favorites: {err}", "favorites": []})
+    except json.JSONDecodeError:
+        return jsonify({"success": False, "message": "Error decoding favorites JSON", "favorites": []})
+
+    finally:
+        cursor.close()
+        connection.close()
+
+    return jsonify({"success": True, "favorites": favorites_list})
 
 
 @app.errorhandler(404)

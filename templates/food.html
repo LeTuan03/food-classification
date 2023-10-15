@@ -840,7 +840,7 @@
                 let dataJson = data.hits.map((i) => {
                     const item = i.recipe;
                     return `<div class="col-md-4 mb-4" >
-                                
+
                                     <div class="card border-css-2">
                                         <img
                                             src="${item.image}"
@@ -879,7 +879,7 @@
                                             </div>
                                         </div>
                                     </div>
-                           
+
                             </div>`;
                 });
                 searchResult.style.display = "";
@@ -890,16 +890,23 @@
     }
 
     function handleAddToFavorite(e) {
+        console.log(e);
+        let cloneObj = {
+            calories: e?.calories,
+            label: e?.label,
+            ingredientLines: e?.ingredientLines,
+            url: e?.url,
+            image: e?.image,
+        };
         fetch("/add_to_favorite", {
             method: "POST",
-            body: JSON.stringify({ value: JSON.stringify(e) }),
+            body: JSON.stringify({ value: JSON.stringify(cloneObj) }),
             headers: {
                 "Content-Type": "application/json",
             },
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 ssPreloaded();
             })
             .catch((error) => ssPreloaded());
