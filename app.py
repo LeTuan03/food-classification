@@ -317,7 +317,6 @@ def get_favorites():
         result = cursor.fetchone()
 
         if result and result['listFavorites']:
-            # Decode the JSON string into a Python object
             favorites_list = json.loads(result['listFavorites'])
         else:
             favorites_list = []
@@ -332,6 +331,45 @@ def get_favorites():
         connection.close()
 
     return jsonify({"success": True, "favorites": favorites_list})
+
+
+@app.route('/remove_favorite', methods=['POST'])
+def remove_favorite():
+    user_id = session.get('user_id', None)
+    if not user_id:
+        return jsonify({"success": False, "message": "Please log in to view your favorites."})
+
+    connection = get_db_connection()
+    if not connection:
+        return jsonify({"success": False, "message": "Database connection error", "favorites": []})
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(
+            "SELECT listFavorites FROM loginapp.list_user WHERE id = %s", (user_id,))
+        result = cursor.fetchone()
+
+        if result and result['listFavorites']:
+            favorites_list = json.loads(result['listFavorites'])
+        else:
+            favorites_list = []
+
+        calories_to_remove = float(request.get_json().get('idFood', 0))
+        updated_favorites_list = [item for item in favorites_list if float(
+            item["calories"]) != calories_to_remove]
+        cursor.execute("UPDATE loginapp.list_user SET listFavorites = %s WHERE id = %s",
+                       (json.dumps(updated_favorites_list), user_id))
+        connection.commit()
+
+    except mysql.connector.Error as err:
+        return jsonify({"success": False, "message": f"Error updating favorites: {err}"})
+    except json.JSONDecodeError:
+        return jsonify({"success": False, "message": "Error decoding favorites JSON"})
+    finally:
+        cursor.close()
+        connection.close()
+
+    return jsonify({"success": True, "message": "Favorite removed successfully"})
 
 
 @app.errorhandler(404)

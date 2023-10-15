@@ -5098,8 +5098,16 @@ button:hover .icon-3 {
 }
 .cart {
     margin-top: 10px;
-    margin-bottom: -20px;
     border-radius: 6px;
     background: #e0e0e0;
     box-shadow: inset 8px 8px 4px #c5c5c5, inset -8px -8px 4px #fbfbfb;
+}
+.detail {
+    max-height: 400px;
+    overflow: scroll;
+}
+
+.favorite-food-title {
+    display: flex;
+    justify-content: space-between;
 }
