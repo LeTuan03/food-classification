@@ -62,8 +62,8 @@ def get_db_connection():
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Letuan191003+",
-            database="loginapp"
+            password="pass",
+            database="databasename"
         )
         return connection
     except mysql.connector.Error as err:
@@ -99,24 +99,24 @@ def handleGetDetailByName(name, uploaded_image_path):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html')
+    return render_template('/index.html')
 
 
-@app.route('/index.html', methods=['GET', 'POST'])
-def index():
-    return render_template('index.html')
+@app.route('/use', methods=['GET'])
+def use():
+    return render_template('use.html')
 
 
-@app.route('/user.html', methods=['GET', 'POST'])
+@app.route('/food', methods=['GET', 'POST'])
 def user():
     if 'logged_in' not in session or not session['logged_in']:
         print('Please log in first!')
-        return redirect('login.html')
+        return redirect('login')
 
-    return render_template('user.html')
+    return render_template('food.html')
 
 
-@app.route('/login.html', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username'].strip()
@@ -134,20 +134,22 @@ def login():
                     session['logged_in'] = True
                     session['username'] = username
                     session['password'] = password
-                    print("Login successed")
+                    if result[2]:
+                        session['user_id'] = result[2]
+                    flash("Login succeeded", "success")
                     return redirect('/')
                 else:
-                    print("User name or password error")
+                    flash("Username or password error", "danger")
+                    return render_template('login.html')
             except mysql.connector.Error as err:
                 flash(f"Err: {err}", "danger")
                 cursor.close()
                 connection.close()
     username = session.get('username', None)
-    password = session.get('password', None)
     return render_template('login.html')
 
 
-@app.route('/register.html', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username'].strip()
@@ -159,7 +161,6 @@ def register():
                 random_id = random.randint(100000, 999999)
                 while is_id_exists(connection, random_id):
                     random_id = random.randint(100000, 999999)
-
                 cursor = connection.cursor()
                 cursor.execute(
                     "INSERT INTO loginapp.list_user (username, password, id) VALUE (%s, %s, %s)", (username, password, random_id))
@@ -167,7 +168,7 @@ def register():
                 print("Account created successed")
                 cursor.close()
                 connection.close()
-                return redirect('login.html')
+                return redirect('login')
             except mysql.connector.Error as err:
                 print(err)
                 cursor.close()
@@ -181,7 +182,7 @@ def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     print('Logged out!')
-    return redirect('login.html')
+    return redirect('login')
 
 
 @app.route('/process_image', methods=['POST'])
@@ -235,13 +236,42 @@ def process_text():
         })
 
 
-@app.route('/profile.html', methods=['GET', 'POST'])
+@app.route('/add_to_favorite', methods=['GET', 'POST'])
+def add_to_favorite():
+    user_id = session.get('user_id', None)
+    print(user_id)
+    if not user_id:
+        return redirect('/login')
+
+    data = request.get_json()
+    searchValue = data.get("value", "")
+    print(searchValue)
+    connection = get_db_connection()
+    if connection:
+        try:
+            cursor = connection.cursor()
+            cursor.execute(
+                "UPDATE loginapp.list_user SET listFavorites = %s WHERE id = %s", (searchValue, user_id))
+            connection.commit()
+            cursor.close()
+            connection.close()
+            return jsonify({"true"})
+        except mysql.connector.Error as err:
+            flash(f"Err: {err}", "danger")
+            cursor.close()
+            connection.close()
+            return jsonify({"false"})
+    else:
+        return jsonify({"false"})
+
+
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
 
     return render_template("profile.html")
 
 
-@app.route('/favorites.html', methods=['GET', 'POST'])
+@app.route('/favorites', methods=['GET', 'POST'])
 def favorites():
 
     return render_template("favorites.html")

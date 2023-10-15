@@ -5,7 +5,7 @@
     ================================================== -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Reservations - Ffood</title>
+        <title>Login - Ffood</title>
 
         <script>
             document.documentElement.classList.remove("no-js");
@@ -28,19 +28,19 @@
         <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="apple-touch-icon.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="favicon-32x32.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="favicon-16x16.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="manifest"
@@ -80,15 +80,15 @@
                     >
 
                     <div class="s-header__nav-logo">
-                        <a href="index.html"> Ffood </a>
+                        <a href="/"> Ffood </a>
                     </div>
                     <!-- s-header__nav-logo -->
 
                     <ul class="s-header__nav-links">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li class="current">
-                            <a href="register.html">Register</a>
+                            <a href="register">Register</a>
                         </li>
                     </ul>
                     <!-- s-header__nav-links -->
@@ -124,7 +124,6 @@
                         </div>
                     </div>
                     <!-- end pageintro -->
-
                     <div class="row width-narrower content-block">
                         <div class="column xl-12">
                             <form
@@ -196,7 +195,7 @@
                                                     <span class="label-text"
                                                         >Don't have an account
                                                         yet?
-                                                        <a href="register.html"
+                                                        <a href="register"
                                                             >Register.</a
                                                         >
                                                     </span>
@@ -392,7 +391,7 @@
                 <div class="row s-footer__top row-x-center">
                     <div class="column xl-4 lg-6 tab-8 mob-12">
                         <a
-                            href="login.html"
+                            href="login"
                             class="btn btn--primary btn--large u-fullwidth"
                             >Start here</a
                         >

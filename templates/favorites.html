@@ -5,7 +5,7 @@
     ================================================== -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Generic Page - Ffood</title>
+        <title>Favorite - Ffood</title>
 
         <script>
             document.documentElement.classList.remove("no-js");
@@ -43,19 +43,19 @@
         <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="apple-touch-icon.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="favicon-32x32.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="favicon-16x16.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="manifest"
@@ -107,22 +107,22 @@
                     >
 
                     <div class="s-header__nav-logo">
-                        <a href="index.html"> Ffood </a>
+                        <a href="/"> Ffood </a>
                     </div>
                     <ul class="s-header__nav-links">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         {% if not session['username'] %}
                         <li>
-                            <a href="register.html">Register</a>
+                            <a href="register">Register</a>
                         </li>
                         <li>
-                            <a href="login.html">Log In</a>
+                            <a href="login">Log In</a>
                         </li>
                         {% endif %} {% if session['username'] %}
-                        <li><a href="user.html">Get to know the food</a></li>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="favorites.html">Favorites</a></li>
+                        <li><a href="food">Get to know the food</a></li>
+                        <li><a href="profile">Profile</a></li>
+                        <li><a href="favorites">Favorites</a></li>
                         <li>
                             <a href="#" onclick="window.location.href='/logout'"
                                 >Log Out</a
@@ -153,58 +153,6 @@
             <!-- end main content -->
             <main>
                 <div class="d-flex flex-wrap container">
-                    <div class="p-3 border-css">
-                        <b>Title</b>
-                        <br />
-                        <small
-                            >Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Tenetur rem magnam sit ratione repudiandae
-                            deserunt ipsam laborum voluptatem saepe. Quidem
-                            expedita vel veritatis odit quia repudiandae
-                            pariatur, ea corporis. Veniam!</small
-                        >
-                        <br />
-                        <a href="#">Read more</a>
-                    </div>
-                    <div class="p-3 border-css">
-                        <b>Title</b>
-                        <br />
-                        <small
-                            >Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Tenetur rem magnam sit ratione repudiandae
-                            deserunt ipsam laborum voluptatem saepe. Quidem
-                            expedita vel veritatis odit quia repudiandae
-                            pariatur, ea corporis. Veniam!</small
-                        >
-                        <br />
-                        <a href="#">Read more</a>
-                    </div>
-                    <div class="p-3 border-css">
-                        <b>Title</b>
-                        <br />
-                        <small
-                            >Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Tenetur rem magnam sit ratione repudiandae
-                            deserunt ipsam laborum voluptatem saepe. Quidem
-                            expedita vel veritatis odit quia repudiandae
-                            pariatur, ea corporis. Veniam!</small
-                        >
-                        <br />
-                        <a href="#">Read more</a>
-                    </div>
-                    <div class="p-3 border-css">
-                        <b>Title</b>
-                        <br />
-                        <small
-                            >Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Tenetur rem magnam sit ratione repudiandae
-                            deserunt ipsam laborum voluptatem saepe. Quidem
-                            expedita vel veritatis odit quia repudiandae
-                            pariatur, ea corporis. Veniam!</small
-                        >
-                        <br />
-                        <a href="#">Read more</a>
-                    </div>
                     <div class="p-3 border-css">
                         <b>Title</b>
                         <br />

@@ -5,7 +5,7 @@
     ================================================== -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Generic Page - Ffood</title>
+        <title>Profile</title>
 
         <script>
             document.documentElement.classList.remove("no-js");
@@ -43,19 +43,19 @@
         <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="apple-touch-icon.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="favicon-32x32.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="favicon-16x16.png"
+            href="{{ url_for('static', filename='images/iconLogo.png') }}"
         />
         <link
             rel="manifest"
@@ -107,22 +107,22 @@
                     >
 
                     <div class="s-header__nav-logo">
-                        <a href="index.html"> Ffood </a>
+                        <a href="/"> Ffood </a>
                     </div>
                     <ul class="s-header__nav-links">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         {% if not session['username'] %}
                         <li>
-                            <a href="register.html">Register</a>
+                            <a href="register">Register</a>
                         </li>
                         <li>
-                            <a href="login.html">Log In</a>
+                            <a href="login">Log In</a>
                         </li>
                         {% endif %} {% if session['username'] %}
-                        <li><a href="user.html">Get to know the food</a></li>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="favorites.html">Favorites</a></li>
+                        <li><a href="food">Get to know the food</a></li>
+                        <li><a href="profile">Profile</a></li>
+                        <li><a href="favorites">Favorites</a></li>
                         <li>
                             <a href="#" onclick="window.location.href='/logout'"
                                 >Log Out</a
@@ -145,7 +145,7 @@
                 >
                     <div class="row">
                         <div class="column xl-12 s-pageheader__content">
-                            <h1 class="page-title">Generic Page</h1>
+                            <h1 class="page-title">My Profile</h1>
                         </div>
                     </div>
                 </section>
@@ -184,13 +184,17 @@
                         <div class="rform__bottom column xl-12">
                             <div class="row">
                                 <div class="column xl-12 tab-12">
-                                    <input
-                                        name="submit"
-                                        id="submit"
-                                        class="btn btn--primary"
-                                        value="Log Out"
-                                        type="submit"
-                                    />
+                                    <a
+                                        href="#"
+                                        onclick="window.location.href='/logout'"
+                                    >
+                                        <input
+                                            name="submit"
+                                            id="submit"
+                                            class="btn btn--primary"
+                                            value="Log Out"
+                                        />
+                                    </a>
                                 </div>
                             </div>
                         </div>
